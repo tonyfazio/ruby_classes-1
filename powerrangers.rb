@@ -39,7 +39,30 @@ class Person
 	end
 end
 
-class PowerRanger
+class PowerRanger <Person
+	def initialize(name, caffine_level, strength, color)
+		super(name, caffine_level)
+		@strength = strength
+		@color = color
+	end
+
+	def punch(person_to_be_punched)
+		if @strength >= 5
+			puts "#{person_to_be_punched.name} is flying in the air."
+			person_to_be_punched.caffine_level-=5
+		else
+			puts "#{person_to_be_punched.scream} and #{person_to_be_punched.run}"
+		end
+		@caffine_level-=1
+	end
+
+	def use_megazord(person_to_be_punched)
+		puts "#{person_to_be_punched.name} is flying in the air."
+		person_to_be_punched.caffine_level-=5000
+	end
+
+	def rest
+	end
 end
 
 class EvilNinja
@@ -48,3 +71,6 @@ end
 don = Person.new("don", 3.4)
 don.run
 puts don.caffine_level
+
+randy = PowerRanger.new("randy", 10, 4, "red")
+randy.punch(don)
