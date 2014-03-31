@@ -1,4 +1,17 @@
+module Punch
+	def punch(person_to_be_punched)
+		if @strength >= 5
+			puts "#{person_to_be_punched.name} is flying in the air."
+			person_to_be_punched.caffine_level-=5
+		else
+			puts "#{person_to_be_punched.scream} and #{person_to_be_punched.run}"
+		end
+		@caffine_level-=1
+	end
+end
+
 class Person
+	attr_accessor :caffine_level
 	def initialize(name, caffine_level = 0)
 		@name= name
 		@caffine_level = caffine_level.to_i
@@ -25,52 +38,82 @@ class Person
 	def caffine_level
 		case @caffine_level
 			when 0..3
-				puts
+				puts "Probably could use another cup of java."
 			when 4..6
-				puts
+				puts "Riding high!"
 			when 7..9
-				puts
+				puts "Let's ease up on the cafe son."
 			when 10
-				puts
+				puts "To infinity and beyond"
 			else
-				puts
+				puts "You need more caffine"
 		end
-		puts @caffine_level
+	 	@caffine_level
 	end
+
 end
 
 class PowerRanger <Person
+	include Punch
+
 	def initialize(name, caffine_level, strength, color)
 		super(name, caffine_level)
 		@strength = strength
 		@color = color
 	end
 
-	def punch(person_to_be_punched)
-		if @strength >= 5
-			puts "#{person_to_be_punched.name} is flying in the air."
-			person_to_be_punched.caffine_level-=5
-		else
-			puts "#{person_to_be_punched.scream} and #{person_to_be_punched.run}"
-		end
-		@caffine_level-=1
-	end
 
-	def use_megazord(person_to_be_punched)
-		puts "#{person_to_be_punched.name} is flying in the air."
-		person_to_be_punched.caffine_level-=5000
+	def use_megazord(person_to_be_taken_down)
+		puts "#{person_to_be_taken_down.name} is flying in the air."
+		person_to_be_taken_down.caffine_level-=5000
 	end
 
 	def rest
+		@caffine_level+=10
+		puts "#{name} is sleeping."
 	end
 end
 
-class EvilNinja
+class EvilNinja <Person
+	include Punch
+
+	def initialize(name, caffine_level, strength, evilness)
+		super(name, caffine_level)
+		@strength = strength
+		@evilness = evilness
+	end
+
+	def cause_mayhem(person_to_be_drained)
+		person_to_be_drained.caffine_level==0
+	end
+
 end
 
-don = Person.new("don", 3.4)
-don.run
+def fight_scene(x,y,a,b,p,pp)
+	x.cause_mayhem(p)
+	y.cause_mayhem(pp)
+	a.use_megazord(x) 
+	b.punch(y)
+end
+
+
+don = Person.new("don", 10)
+#/don.run/#
+#/puts don.caffine_level/#
+
+randy = PowerRanger.new("randy", 10, 55, "red")
+#/randy.punch(don)/#
+#/puts don.caffine_level/#
+
+randy.use_megazord(don)
 puts don.caffine_level
 
-randy = PowerRanger.new("randy", 10, 4, "red")
-randy.punch(don)
+
+dan = Person.new("dan", 5)
+alex = PowerRanger.new("alex", 10, 4, "pink")
+jon = EvilNinja.new("jon", 4, 2, 3)
+rick = EvilNinja.new("rick", 2,3,2)
+
+#/fight_scene(jon, rick, randy, alex, don, dan)/#
+
+
